@@ -1,80 +1,91 @@
-<script lang="ts">
-	import setupGame from '$lib/setupGame';
-	import { highScore, isGameOver, isGameStarted, score } from '$lib/stores';
-	import { onMount } from 'svelte';
-
-	onMount(() => setupGame())
-</script>
-
-
-	<section class="flex flex-col w-full gap-y-2 p-2">
-		<div class="flex flex-col items-center">
-			<h1>Controls</h1>
-		</div>
-		<div class="flex flex-col gap-y-2">
-			<h3><kbd class="kbd">space</kbd> to shoot</h3>
-			<h3><kbd class="kbd">w</kbd> to go forward</h3>
-			<h3><kbd class="kbd">a</kbd> to rotate left</h3>
-			<h3><kbd class="kbd">d</kbd> to rotate right</h3>
-			<p class="text-sm">
-				you can also change<br />
-				the settings of the game
-				<a class="link decoration-wavy hover:text-primary" href="/config">here</a>
-			</p>
-		</div>
-	</section>
-
-<div>
-	<div class="my-2 inline-flex w-full justify-between text-lg">
-		<h2>SCORE: {$score}</h2>
-		<h2>HIGHSCORE: {$highScore}</h2>
-	</div>
-
-	<div class="relative">
-		{#if $isGameOver}
-			<div class="absolute top-1/2 left-1/2 -translate-x-1/2 transform">
-				<span class="text-3xl text-primary">GAME OVER</span>
-			</div>
-		{/if}
-		<!-- {#if !$isGameStarted}
-		<div
-			class="absolute top-1/2 transform left-1/2 
-			-translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
-		>
-			<h2 class="text-xl">Play the Game</h2>
-			<button on:click={() => setupGame()}>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					class="transition-color h-20 w-20 duration-300 hover:text-primary"
-					viewBox="0 0 20 20"
-					fill="currentColor"
-				>
-					<path
-						fill-rule="evenodd"
-						d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-						clip-rule="evenodd"
-					/>
-				</svg>
-			</button>
-		</div>
-		{/if} -->
-		<canvas
-			class="rounded-box border-2 border-primary bg-neutral shadow-md shadow-red-600/50"
-			height="460"
-			width="640"
-			id="game"
-		/>
-	</div>
+<div class="flex justify-center text-center w-full centerWindow">
+	<ol>
+		<li class="title-game">
+			<div class="firework" />
+			<div class="firework" />
+			<div class="firework" />
+			Almonderoid
+		</li>
+		<li class="options-menu">
+			<a href="game">Game</a>
+		</li>
+		<li class="options-menu">
+			<a href="controls">Controls</a>
+		</li>
+		<li class="options-menu">
+			<a href="config">Settings</a>
+		</li>
+	</ol>
 </div>
-<div class="flex flex-col gap-y-2 w-full items-start justify-between">
-	<a class="btn border-2 border-primary" data-sveltekit-reload href="/">RESET GAME</a>
-	<!-- {#if $lives > 0}
-		<ul out:fade={{ duration: 500 }} class="rounded-box inline-flex bg-neutral py-3 px-5">
-			{#each Array($lives) as _, i (i)}
-				<li>
-					<Lives />
-				</li>
-			{/each}
-		</ul>
-	{/if} -->
-</div>
+
+<style>
+	.centerWindow {
+		@apply absolute;
+		top: 30%;
+		transform: translateY(-30%);
+	}
+
+	.title-game {
+		font-size: 46px;
+		-webkit-text-stroke: 2px #ffa500;
+		@apply my-4;
+		position: relative;
+		animation: queda 2s infinite;
+	}
+
+	.firework {
+		position: absolute;
+		width: 10px;
+		height: 10px;
+		background: red;
+		opacity: 0;
+		animation: fireworks 1s linear infinite;
+	}
+
+	.firework:nth-child(2) {
+		left: 20px;
+		animation-delay: 0.5s;
+	}
+
+	.firework:nth-child(3) {
+		right: 0;
+		animation-delay: 1s;
+	}
+
+	.options-menu {
+		@apply my-2;
+	}
+
+	.options-menu:hover {
+		color: #fe3637;
+	}
+
+	@keyframes fireworks {
+		0% {
+			transform: translateY(0) rotate(0deg);
+			opacity: 1;
+		}
+		100% {
+			transform: translateY(-100px) rotate(360deg);
+			opacity: 0;
+		}
+	}
+
+	@keyframes queda {
+		0% {
+			transform: translateX(0);
+		}
+		25% {
+			transform: translateX(-5px) translateY(2px);
+		}
+		50% {
+			transform: translateX(5px) translateY(1px);
+		}
+		75% {
+			transform: translateX(-5px) translateY(-3px);
+		}
+		100% {
+			transform: translateX(0px) translateY(0px);
+		}
+	}
+</style>
