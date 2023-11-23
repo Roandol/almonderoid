@@ -4,8 +4,9 @@ import { get } from "svelte/store";
 import canvasConfig from "./config/canvasConfig";
 import renderGame from "./renderer/renderGame";
 import { collisionSystem, keysSystem, movesSystem, waveSystem } from "./system";
+import type { GameSettings } from "./types";
 
-export function game() {
+export function game(): GameSettings {
     const { subscribeMoves, unSubscribeMoves } = keysSystem();
     const { collisionChecking, cancelCollisionChecking } = collisionSystem();
     const { startMoves, stopMoves } = movesSystem();
@@ -25,7 +26,7 @@ export function game() {
         startMoves();
         renderGame();
         startWaves();
-        
+
         isGameStarted.set(true);
         isGameOver.set(false);
     }
@@ -39,24 +40,26 @@ export function game() {
 
         isGamePaused.set(true);
     }
-    
+
     function continueGame() {
         subscribeMoves();
         collisionChecking();
         startMoves();
         renderGame();
         startWaves();
-        
+
         isGamePaused.set(false);
     }
 
     function reset() {
+        if (!get(isGameStarted)) return;
+
         const state = get(stateGame);
 
         renderGame.stopRender(true);
         isGamePaused.set(false);
         isGameStarted.set(false);
-        
+
         stopWaves();
         stopMoves();
         cancelCollisionChecking();

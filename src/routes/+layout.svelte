@@ -6,6 +6,8 @@
 	import PopConfirm from '$lib/components/PopConfirm/PopConfirm.svelte';
 	import { goto } from '$app/navigation';
 	import type { DataUrl } from '$lib/types';
+	import { get } from 'svelte/store';
+	import { gameSettingsStore } from '$lib/stores';
 
 	export let data: DataUrl;
 
@@ -14,7 +16,10 @@
 	let ShowPopupConfirm: boolean = false;
 
 	const handleConfirm = () => {
+		const settings = get(gameSettingsStore);
 		ShowPopupConfirm = false;
+		console.log(settings);
+		settings.reset();
 		goto('/');
 	};
 

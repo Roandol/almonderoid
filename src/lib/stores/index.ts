@@ -2,6 +2,7 @@ import { writable } from 'svelte/store';
 import { writable as ls } from 'svelte-local-storage-store';
 import type { Asteroid, Ship } from '$lib/objects';
 import type { Point } from '$lib/objects/Point';
+import type { GameSettings } from '$lib/setup/types';
 
 export interface KeysDef {
 	forwardKey: string;
@@ -16,6 +17,7 @@ export interface StateGame {
 	points: Point[];
 }
 
+export const gameSettingsStore = writable<GameSettings>();
 export const stateGame = writable<StateGame>({
 	ships: [],
 	asteroids: [],
