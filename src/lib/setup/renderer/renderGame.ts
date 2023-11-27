@@ -13,15 +13,16 @@ function clearCanvas(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
+const state = get(stateGame);
 let loopRender: number;
 
 export const renderGame: RenderGame = () => {
-    const { ships, asteroids, points } = get(stateGame);
+    const { ships, asteroids, points } = state;
     const canvas = get(Canvas);
     const ctx = get(Ctx);
-
+    
     clearCanvas(canvas, ctx);
-
+    
     for (const ship of ships) {
         ship.draw();
 
@@ -31,7 +32,7 @@ export const renderGame: RenderGame = () => {
     for (const point of points) {
         point.draw();
     }
-
+    
     drawObjects(asteroids)
 
     loopRender = requestAnimationFrame(renderGame);
@@ -40,7 +41,7 @@ export const renderGame: RenderGame = () => {
 renderGame.stopRender = (clear = false) => {
     const canvas = get(Canvas);
     const ctx = get(Ctx);
-
+    
     cancelAnimationFrame(loopRender);
     if (clear)
         clearCanvas(canvas, ctx);
