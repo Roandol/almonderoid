@@ -17,8 +17,8 @@
 
 	const handleConfirm = () => {
 		const settings = get(gameSettingsStore);
+
 		ShowPopupConfirm = false;
-		console.log(settings);
 		settings.reset();
 		goto('/');
 	};
