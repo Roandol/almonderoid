@@ -7,7 +7,7 @@ export default function createKeyboardListener() {
 
     function addEvents(handleKeydown: (key: string) => void, handleKeyup: (key: string) => void) {
         document.onkeydown = (e: KeyboardEvent) => {
-            const key = e.key.trim() ? e.key : e.code;
+            const key = e.key.trim() ? e.key.toLowerCase() : e.code;
 
             if (!(key in timers)) {
                 timers[key] = undefined;
@@ -18,7 +18,7 @@ export default function createKeyboardListener() {
 
         }
         document.onkeyup = (e: KeyboardEvent) => {
-            const key = e.key.trim() ? e.key : e.code;
+            const key = e.key.trim() ? e.key.toLowerCase() : e.code;
 
             if (key in timers) {
                 if (timers[key] !== null)
